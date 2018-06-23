@@ -34,4 +34,4 @@ PROJECT=`gcloud config get-value project 2> /dev/null`; gcloud projects add-iam-
 PROJECT=`gcloud config get-value project 2> /dev/null`; gcloud projects add-iam-policy-binding $PROJECT --member serviceAccount:spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com --role roles/iam.serviceAccountKeyAdmin
 PROJECT=`gcloud config get-value project 2> /dev/null`; gcloud projects add-iam-policy-binding $PROJECT --member serviceAccount:spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com --role roles/storage.admin
 
-git clone https://github.com/GoogleCloudPlatform/cloudspanner-ticketshop-demo /root/cloudspanner-ticketshop-demo
+git clone https://github.com/zpurcey/cloudspanner-ticketshop-demo /root/cloudspanner-ticketshop-demo
