@@ -45,7 +45,7 @@ Google Compute Engine (GCE) instance with the following packages pre-installed
 To create an instance in your account and pre-install all required packages you
 can run the commands below.
 
-**Important**: Make sure your gcloud auth & project set correctly. You can
+**Important**: Make sure your billing, gcloud auth & project set correctly. You can
 adjust the zone to create the GCE instance in with your preference.
 
 **WARNING**: The below instructions create a service account with IAM permission
@@ -59,6 +59,8 @@ gcloud services enable container.googleapis.com
 gcloud services enable compute.googleapis.com
 gcloud services enable spanner.googleapis.com
 gcloud services enable containerregistry.googleapis.com
+gcloud services enable cloudresourcemanager.googleapis.com
+gcloud services enable iam.googleapis.com
 
 gcloud iam service-accounts create spanner-demo-gce-svc-acc \
 --display-name "Cloud Spanner Demo GCE Service Account"
@@ -100,7 +102,7 @@ tmux
 ```
 
 In tmux you can now move into the repository folder
-`cloudspanner-ticketshop-demo` and run `.scripts/setup.sh`.
+`cloudspanner-ticketshop-demo` and run `./scripts/setup.sh`.
 Follow the instructions of the setup script.
 
 Example Answers:
