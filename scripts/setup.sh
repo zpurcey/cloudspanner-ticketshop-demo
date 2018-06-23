@@ -261,7 +261,7 @@ case "$response" in
         kubectl --context $CLUSTER_PREFIX$primary_region-01 apply -f $K8S_GENERATED_CONFIGS_FOLDER$DATE-$K8S_VENUESLOAD_YAMLTMPL-$instance-$db-$VERSION.yaml
         set +o xtrace
         # check for job to be finished in loop with timeout
-        while [ 1 ]; do
+        while false; do
             kubectlout=$(kubectl --context $CLUSTER_PREFIX$primary_region-01 get job spannerdemo-venuesload)
 
             regex="spannerdemo-venuesload[[:space:]]+([0-9]*)[[:space:]]+([0-9]*)"
@@ -282,7 +282,7 @@ case "$response" in
         kubectl --context $CLUSTER_PREFIX$primary_region-01 create -f $K8S_GENERATED_CONFIGS_FOLDER$DATE-$K8S_TICKETSLOAD_YAMLTMPL-$instance-$db-$VERSION.yaml
         set +o xtrace
         # optional check for tickets to be finished
-        while [ 1 ]; do
+        while false; do
             kubectlout=$(kubectl --context $CLUSTER_PREFIX$primary_region-01 get job spannerdemo-ticketsload)
 
             regex="spannerdemo-ticketsload[[:space:]]+([0-9]*)[[:space:]]+([0-9]*)"
