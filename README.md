@@ -55,6 +55,9 @@ You can remove the projectIamAdmin role from the service account after running
 the setup script.
 
 ```bash
+gcloud config set compute/region europe-west1
+gcloud config set compute/zone europe-west1-c
+
 gcloud services enable container.googleapis.com
 gcloud services enable compute.googleapis.com
 gcloud services enable spanner.googleapis.com
@@ -71,16 +74,15 @@ serviceAccount:spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com \
 --role roles/resourcemanager.projectIamAdmin
 
 PROJECT=`gcloud config get-value project 2> /dev/null`; gcloud compute \
-instances create demo-controller-01 --zone europe-west1-c --machine-type \
+instances create demo-controller-01 --machine-type \
 n1-standard-1 --scopes "https://www.googleapis.com/auth/cloud-platform" \
 --image-project ubuntu-os-cloud --image-family ubuntu-1710 --service-account \
 spanner-demo-gce-svc-acc@$PROJECT.iam.gserviceaccount.com
 
 gcloud compute scp scripts/setup-demo-controller.sh \
-demo-controller-01:setup-demo-controller.sh --zone europe-west1-c
+demo-controller-01:setup-demo-controller.sh
 
-gcloud compute ssh demo-controller-01 --zone europe-west1-c \
---command "sudo sh setup-demo-controller.sh"
+gcloud compute ssh demo-controller-01 --command "sudo sh setup-demo-controller.sh" 
 ```
 
 ### Running the demo setup script
