@@ -55,4 +55,9 @@ done
 #Reset Dashboard and Metrics
 echo -e "\n\nReseting metrics and clearing the dashboard"
 kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 scale deployment ${CLUSTER_PREFIX}backend-influxdb --replicas 0
-kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 scale deployment ${CLUSTER_PREFIX}dashboard --replicas 0kkkkkjjj
+kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 scale deployment ${CLUSTER_PREFIX}dashboard --replicas 0
+
+kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 scale deployment ${CLUSTER_PREFIX}backend-influxdb --replicas 1
+kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 scale deployment ${CLUSTER_PREFIX}dashboard --replicas 1
+echo -e "${CHECK_MARK} Reseting metrics and clearing the dashboard"
+echo -e "\n\nSuccess - Exiting"
