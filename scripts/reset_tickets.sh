@@ -12,9 +12,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-#Scale all buybots to zero to ensure job won't run for ever!
 CHECK_MARK="\033[0;32m\xE2\x9C\x94\033[0m"
+CLUSTER_PREFIX='spannerdemo-'
+primary_region='us'
 
 echo -e "\n\nTurning off all buy bots"
 scripts/buybots_scale.sh 1 0
@@ -22,31 +22,36 @@ echo -e "${CHECK_MARK} Turning off all buy bots"
 
 #Delete old job if it still exists and ignore not found error
 echo -e "\n\nDeleting old reset job"
-kubectl --context spannerdemo-europe-01 delete job spannerdemo-reset --ignore-not-found
+kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 delete job ${CLUSTER_PREFIX}reset --ignore-not-found
 echo -e "${CHECK_MARK} Deleting old reset job"
 
 #Start Reset tickets job
 echo -e "\n\nStarting ticket reset job"
-kubectl --context spannerdemo-europe-01 create -f `ls k8sgenerated/*reset*`
+kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 create -f `ls k8sgenerated/*reset*`
 echo -e "${CHECK_MARK} Starting ticket reset job"
 
-echo -e "\n\n"
+echo -e "\n"
+
 start=$SECONDS
-until kubectl --context spannerdemo-europe-01 get jobs | grep -q "spannerdemo-reset         3         3";
-do 
-  end=$SECONDS
-  duration=$(( end - start ))
-  echo -ne "\e[0K\rWaiting for job to complete: $duration s"
-  sleep 2; 
+while true; do
+    kubectlout=$(kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 get job ${CLUSTER_PREFIX}reset)
+    regex="spannerdemo-reset[[:space:]]+([0-9]*)[[:space:]]+([0-9]*)"
+    if [[ $kubectlout =~ $regex ]];
+    then
+        if [[ ${BASH_REMATCH[1]} == ${BASH_REMATCH[2]} ]];
+        then
+            echo -ne "\e[0K\rWaiting for job to complete. Duration: $duration s (${BASH_REMATCH[2]} out of ${BASH_REMATCH[1]} finished)"
+            echo -e "\n${CHECK_MARK} Ticket reset job complete!"
+            break
+        fi
+        end=$SECONDS
+        duration=$(( end - sstart ))
+        echo -ne "\e[0K\rWaiting for job to complete. Duration: $duration s (${BASH_REMATCH[2]} out of ${BASH_REMATCH[1]} finished)"
+    fi
+    sleep 2
 done
-echo -e "\n${CHECK_MARK} Ticket reset job complete!"
 
 #Reset Dashboard and Metrics
 echo -e "\n\nReseting metrics and clearing the dashboard"
-kubectl --context spannerdemo-europe-01 scale deployment spannerdemo-backend-influxdb --replicas 0
-kubectl --context spannerdemo-europe-01 scale deployment spannerdemo-dashboard --replicas 0
-
-kubectl --context spannerdemo-europe-01 scale deployment spannerdemo-backend-influxdb --replicas 1
-kubectl --context spannerdemo-europe-01 scale deployment spannerdemo-dashboard --replicas 1
-echo -e "${CHECK_MARK} Reseting metrics and clearing the dashboard"
-echo -e "\n\nSuccess - Exiting"
+kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 scale deployment ${CLUSTER_PREFIX}backend-influxdb --replicas 0
+kubectl --context ${CLUSTER_PREFIX}${primary_region}-01 scale deployment ${CLUSTER_PREFIX}dashboard --replicas 0kkkkkjjj

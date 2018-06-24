@@ -1,4 +1,4 @@
-// Replace labels to mock dashboard for fs vertical cusotmers
+// Replace labels to mock dashboard for fs vertical customers
 var originalLabel = 'TICKETS SOLD';
 var newLabel = 'TRANSACTIONS';
 var labels = document.getElementsByClassName("type-label");
