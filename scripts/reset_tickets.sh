@@ -14,7 +14,8 @@
 # limitations under the License.
 CHECK_MARK="\033[0;32m\xE2\x9C\x94\033[0m"
 CLUSTER_PREFIX='spannerdemo-'
-primary_region='us'
+#Set primary_region to 'us' 'europe' or 'asia'
+primary_region='europe'
 
 echo -e "\n\nTurning off all buy bots"
 scripts/buybots_scale.sh 1 0

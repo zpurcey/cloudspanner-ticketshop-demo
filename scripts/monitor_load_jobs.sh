@@ -14,8 +14,8 @@
 # limitations under the License.
 
 CLUSTER_PREFIX=spannerdemo-
-#Update primary_region for "us" "asia" or "europe"
-primary_region=us
+#Update primary_region for 'us' 'asia' or 'europe'
+primary_region='europe'
 
 date
 
